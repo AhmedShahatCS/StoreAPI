@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Store.Core.Specifications;
 
 namespace Store.Service.Services.Products
 {
@@ -31,7 +32,8 @@ namespace Store.Service.Services.Products
 
         public async Task<IEnumerable<ProductDto>> GetAllProductAsync()
         {
-            var product =await _unitOfWork.Repository<Product, int>().GetAllAsync();
+            var spec = new ProductSpecification();
+            var product =await _unitOfWork.Repository<Product, int>().GetAllwithspecAsync(spec);
             var mapped=_mapper.Map<IEnumerable<ProductDto>>(product);
             return mapped;
         }
@@ -52,7 +54,9 @@ namespace Store.Service.Services.Products
         public async Task<ProductDto> GetProductById(int? id)
         {
             //throw new NotImplementedException();
-            var product = await _unitOfWork.Repository<Product, int>().GetAsync(id.Value);
+            var spec = new ProductSpecification(id.Value);
+            
+            var product = await _unitOfWork.Repository<Product, int>().GetWithSpecAsync(spec);
             var mapped = _mapper.Map<ProductDto>(product);
             return mapped;
         }

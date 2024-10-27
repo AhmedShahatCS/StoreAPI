@@ -16,7 +16,8 @@ namespace Store.Core.Mapping.Products
 
             CreateMap<Product, ProductDto>()
                 .ForMember(d => d.BrandName, options => options.MapFrom(s => s.Brand.Name))
-                .ForMember(d => d.TypeName, options => options.MapFrom(s => s.Type.Name));
+                .ForMember(d => d.TypeName, options => options.MapFrom(s => s.Type.Name))
+                .ForMember(d => d.PictureUrl, o => o.MapFrom<ProductPictureUrlResolver>());
 
             CreateMap<ProductType, TypeBrandDto>();
             CreateMap<ProductBrand, TypeBrandDto>();

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Store.API.Errors;
 using Store.Core.Servise.Contract.Products;
+using Store.Core.Specifications;
 
 namespace Store.API.Controllers
 {
@@ -16,6 +18,7 @@ namespace Store.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GeyttAllProduct()
         {
+           
             var result = await _seviceProduct.GetAllProductAsync();
             return Ok(result);
         
@@ -43,6 +46,7 @@ namespace Store.API.Controllers
         public async Task<ActionResult> GeyttProductById(int?id)
         {
             var result = await _seviceProduct.GetProductById(id);
+            if (result is null) return NotFound(new ApiResponse(404));
             return Ok(result);
 
 

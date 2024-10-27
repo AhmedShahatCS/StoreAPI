@@ -31,6 +31,7 @@ namespace Store.API
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             builder.Services.AddScoped<ISeviceProduct, SeviceProduct>();
+            builder.Services.AddScoped<ProductPictureUrlResolver>();
 
             builder.Services.AddAutoMapper(m => m.AddProfile(new ProductProfile()));
 
@@ -62,6 +63,7 @@ namespace Store.API
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
+            app.UseStaticFiles();
 
 
             app.MapControllers();
