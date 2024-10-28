@@ -1,6 +1,9 @@
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Store.API.Errors;
+using Store.API.MiddelWare;
 using Store.Core;
 using Store.Core.Mapping.Products;
 using Store.Core.Servise.Contract.Products;
@@ -35,6 +38,23 @@ namespace Store.API
 
             builder.Services.AddAutoMapper(m => m.AddProfile(new ProductProfile()));
 
+            builder.Services.Configure<ApiBehaviorOptions>(Options =>
+            {
+                Options.InvalidModelStateResponseFactory = (actionContext)=>
+                {
+                    var errors = actionContext.ModelState.Where(p => p.Value.Errors.Count() > 0)
+                                                                 .SelectMany(p => p.Value.Errors)
+                                                                 .Select(p => p.ErrorMessage).ToArray();
+
+                    var ValidationErrors = new ApiValidationErrorsResponse()
+                    {
+                        Errors = errors
+                    };
+                    return new BadRequestObjectResult(ValidationErrors);
+
+                };
+            });
+
             var app = builder.Build();
 
            using var scope= app.Services.CreateScope();
@@ -54,11 +74,13 @@ namespace Store.API
 
 
             // Configure the HTTP request pipeline.
+            app.UseMiddleware<ExceptionMaddelware>();
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+            app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseHttpsRedirection();
 
