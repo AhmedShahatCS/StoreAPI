@@ -19,6 +19,8 @@ namespace Store.Core.Repository.Contract
         void Update(TEntity entity);
         void Delete(TEntity entity);
 
+        Task<int> GetCountWithSpecAsync(ISpecification<TEntity,Tkey> spec);
+
     }
 }
 

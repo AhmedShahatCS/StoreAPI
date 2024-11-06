@@ -1,4 +1,6 @@
 ﻿using Store.Core.Dtos.Product;
+using Store.Core.Mapping;
+using Store.Core.Specifications;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ namespace Store.Core.Servise.Contract.Products
 {
     public interface ISeviceProduct
     {
-        Task<IReadOnlyList<ProductDto>> GetAllProductAsync(string? sort, int? Brandid, int? Typeid);
+        Task<Pagination<ProductDto>> GetAllProductAsync(ProductSpecParms Parms);
         Task<IReadOnlyList<TypeBrandDto>> GetAllBrandAsync();
         Task<IReadOnlyList<TypeBrandDto>> GetAllTypeAsync();
 

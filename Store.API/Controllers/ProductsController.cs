@@ -17,10 +17,10 @@ namespace Store.API.Controllers
             _seviceProduct = seviceProduct;
         }
         [HttpGet]
-        public async Task<ActionResult> GetAllProduct(string? sort , int? Brandid , int? Typeid)
+        public async Task<ActionResult> GetAllProduct([FromQuery]ProductSpecParms Parms)
         {
            
-            var result = await _seviceProduct.GetAllProductAsync(sort, Brandid, Typeid);
+            var result = await _seviceProduct.GetAllProductAsync(Parms);
             return Ok(result);
         
         

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Store.Core.Specifications;
+using Store.Core.Mapping;
 
 namespace Store.Service.Services.Products
 {
@@ -30,12 +31,14 @@ namespace Store.Service.Services.Products
             return mapped;
         }
 
-        public async Task<IReadOnlyList<ProductDto>> GetAllProductAsync(string? sort, int? Brandid, int? Typeid)
+        public async Task<Pagination<ProductDto>> GetAllProductAsync(ProductSpecParms Parms)
         {
-            var spec = new ProductSpecification(sort,Brandid,Typeid);
+            var spec = new ProductSpecification(Parms);
             var product =await _unitOfWork.Repository<Product, int>().GetAllwithspecAsync(spec);
             var mapped=_mapper.Map<IReadOnlyList<ProductDto>>(product);
-            return mapped;
+            var countSpec = new ProductWithFilterationForCountAsync(Parms);
+            var count = await _unitOfWork.Repository<Product, int>().GetCountWithSpecAsync(countSpec);
+            return new Pagination<ProductDto>(Parms.PageCount, Parms.PageIndex, mapped, count); ;
         }
 
         public async Task<IReadOnlyList<TypeBrandDto>> GetAllTypeAsync()

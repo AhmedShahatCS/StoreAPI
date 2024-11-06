@@ -9,18 +9,18 @@ namespace Store.Core.Specifications
 {
     public class ProductSpecification :BaseSpecification<Product,int>
     {
-        public ProductSpecification(string? sort, int? Brandid, int? Typeid) :
+        public ProductSpecification(ProductSpecParms Parms) :
             base(
-                P=>(!Brandid.HasValue||P.BrandId==Brandid)
-                &&(!Typeid.HasValue||P.TypeId==Typeid)
+                P=>(!Parms.Brandid.HasValue||P.BrandId== Parms.Brandid)
+                &&(!Parms.Typeid.HasValue||P.TypeId== Parms.Typeid)
                 
                 )
         {
             Includes.Add(p => p.Brand);
             Includes.Add(p => p.Type);
-            if(!string.IsNullOrEmpty(sort))
+            if(!string.IsNullOrEmpty(Parms.sort))
             {
-                switch (sort)
+                switch (Parms.sort)
                 {
                     case "PriceAsc":
                         AddOrderBy(p => p.Price);
@@ -36,7 +36,7 @@ namespace Store.Core.Specifications
                 }
             }
 
-
+            ApllyPagination(Parms.PageCount * (Parms.PageIndex-1), Parms.PageCount);
         }
 
         public ProductSpecification(int id) : base(p=>p.Id==id) {
