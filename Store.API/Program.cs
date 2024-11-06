@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Store.API.Errors;
+using Store.API.Extentions;
 using Store.API.MiddelWare;
 using Store.Core;
 using Store.Core.Mapping.Products;
@@ -31,30 +32,7 @@ namespace Store.API
                 option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-            builder.Services.AddScoped<ISeviceProduct, SeviceProduct>();
-            builder.Services.AddScoped<ProductPictureUrlResolver>();
-
-            builder.Services.AddAutoMapper(m => m.AddProfile(new ProductProfile()));
-
-            builder.Services.Configure<ApiBehaviorOptions>(Options =>
-            {
-                Options.InvalidModelStateResponseFactory = (actionContext)=>
-                {
-                    var errors = actionContext.ModelState.Where(p => p.Value.Errors.Count() > 0)
-                                                                 .SelectMany(p => p.Value.Errors)
-                                                                 .Select(p => p.ErrorMessage).ToArray();
-
-                    var ValidationErrors = new ApiValidationErrorsResponse()
-                    {
-                        Errors = errors
-                    };
-                    return new BadRequestObjectResult(ValidationErrors);
-
-                };
-            });
-
+            builder.Services.AddAplicationService();
             var app = builder.Build();
 
            using var scope= app.Services.CreateScope();
@@ -74,11 +52,11 @@ namespace Store.API
 
 
             // Configure the HTTP request pipeline.
-            app.UseMiddleware<ExceptionMaddelware>();
+            
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseMiddleware<ExceptionMaddelware>();
+                app.AddSwaggerMiddleWare();
             }
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
 

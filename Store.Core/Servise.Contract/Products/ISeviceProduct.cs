@@ -9,9 +9,9 @@ namespace Store.Core.Servise.Contract.Products
 {
     public interface ISeviceProduct
     {
-        Task<IEnumerable<ProductDto>> GetAllProductAsync();
-        Task<IEnumerable<TypeBrandDto>> GetAllBrandAsync();
-        Task<IEnumerable<TypeBrandDto>> GetAllTypeAsync();
+        Task<IReadOnlyList<ProductDto>> GetAllProductAsync(string? sort, int? Brandid, int? Typeid);
+        Task<IReadOnlyList<TypeBrandDto>> GetAllBrandAsync();
+        Task<IReadOnlyList<TypeBrandDto>> GetAllTypeAsync();
 
         Task<ProductDto> GetProductById(int? id);
 

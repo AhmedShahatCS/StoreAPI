@@ -19,6 +19,14 @@ namespace Store.Repository
             {
                 Query = Query.Where(spec.Criteria);
             }
+            if(spec.OrderBy is not null)
+            {
+                Query = Query.OrderBy(spec.OrderBy);
+            }
+            if(spec.OrderByDesc is not null)
+            {
+                Query=Query.OrderByDescending(spec.OrderByDesc);
+            }
             Query = spec.Includes.Aggregate(Query, (CurrentQuery, incluseExpression) => CurrentQuery.Include(incluseExpression));
 
 

@@ -30,11 +30,11 @@ namespace Store.Repository.Repository
             _context.Remove(entity); 
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IReadOnlyList<TEntity>> GetAllAsync()
         {
             if (typeof(TEntity) == typeof(Product))
              {
-                return (IEnumerable<TEntity>) await _context.Products.Include(p => p.Brand).Include(p => p.Type).ToListAsync();
+                return (IReadOnlyList<TEntity>) await _context.Products.Include(p => p.Brand).Include(p => p.Type).ToListAsync();
 
             }
            return await _context.Set<TEntity>().ToListAsync();
@@ -61,7 +61,7 @@ namespace Store.Repository.Repository
             _context.Update(entity);
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllwithspecAsync(ISpecification<TEntity, TKey> Spec)
+        public async Task<IReadOnlyList<TEntity>> GetAllwithspecAsync(ISpecification<TEntity, TKey> Spec)
         {
             return await ApllySpecification(Spec).ToListAsync() ;
 

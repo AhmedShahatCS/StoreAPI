@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Store.API.Errors;
+using Store.Core.Dtos.Product;
 using Store.Core.Servise.Contract.Products;
 using Store.Core.Specifications;
 
@@ -16,10 +17,10 @@ namespace Store.API.Controllers
             _seviceProduct = seviceProduct;
         }
         [HttpGet]
-        public async Task<ActionResult> GeyttAllProduct()
+        public async Task<ActionResult> GetAllProduct(string? sort , int? Brandid , int? Typeid)
         {
            
-            var result = await _seviceProduct.GetAllProductAsync();
+            var result = await _seviceProduct.GetAllProductAsync(sort, Brandid, Typeid);
             return Ok(result);
         
         
@@ -43,6 +44,9 @@ namespace Store.API.Controllers
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(ProductDto),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+
         public async Task<ActionResult> GeyttProductById(int?id)
         {
             var result = await _seviceProduct.GetProductById(id);

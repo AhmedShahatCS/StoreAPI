@@ -22,26 +22,26 @@ namespace Store.Service.Services.Products
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<TypeBrandDto>> GetAllBrandAsync()
+        public async Task<IReadOnlyList<TypeBrandDto>> GetAllBrandAsync()
         {
 
             var brand = await _unitOfWork.Repository<ProductBrand, int>().GetAllAsync();
-            var mapped = _mapper.Map<IEnumerable<TypeBrandDto>>(brand);
+            var mapped = _mapper.Map<IReadOnlyList<TypeBrandDto>>(brand);
             return mapped;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllProductAsync()
+        public async Task<IReadOnlyList<ProductDto>> GetAllProductAsync(string? sort, int? Brandid, int? Typeid)
         {
-            var spec = new ProductSpecification();
+            var spec = new ProductSpecification(sort,Brandid,Typeid);
             var product =await _unitOfWork.Repository<Product, int>().GetAllwithspecAsync(spec);
-            var mapped=_mapper.Map<IEnumerable<ProductDto>>(product);
+            var mapped=_mapper.Map<IReadOnlyList<ProductDto>>(product);
             return mapped;
         }
 
-        public async Task<IEnumerable<TypeBrandDto>> GetAllTypeAsync()
+        public async Task<IReadOnlyList<TypeBrandDto>> GetAllTypeAsync()
         {
             var type =await _unitOfWork.Repository<ProductType, int>().GetAllAsync();
-            var mapped = _mapper.Map<IEnumerable<TypeBrandDto>>(type);
+            var mapped = _mapper.Map<IReadOnlyList<TypeBrandDto>>(type);
             return mapped;
         }
 

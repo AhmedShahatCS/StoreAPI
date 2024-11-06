@@ -10,9 +10,9 @@ namespace Store.Core.Repository.Contract
 {
     public interface IGenericRepository<TEntity, Tkey> where TEntity : BaseEntity<Tkey>
     {
-        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<IReadOnlyList<TEntity>> GetAllAsync();
         Task<TEntity> GetAsync(Tkey id);
-        Task<IEnumerable<TEntity>> GetAllwithspecAsync(ISpecification<TEntity,Tkey> Spec);
+        Task<IReadOnlyList<TEntity>> GetAllwithspecAsync(ISpecification<TEntity,Tkey> Spec);
         Task<TEntity> GetWithSpecAsync(ISpecification<TEntity, Tkey> Spec);
         Task AddAsync(TEntity entity);
 
