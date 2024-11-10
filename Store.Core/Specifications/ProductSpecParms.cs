@@ -21,5 +21,14 @@ namespace Store.Core.Specifications
             set { pageCount = value > 10 ? 10 : value; }
         }
 
+        private string? search;
+
+        public string? Search
+        {
+            get { return search; }
+            set { search = value.ToLower(); }
+        }
+
+
     }
 }

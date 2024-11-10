@@ -10,7 +10,10 @@ namespace Store.Core.Specifications
     public class ProductWithFilterationForCountAsync:BaseSpecification<Product,int>
     {
         public ProductWithFilterationForCountAsync(ProductSpecParms parms) : base(
-                P => (!parms.Brandid.HasValue || P.BrandId == parms.Brandid)
+                P =>
+                 (string.IsNullOrEmpty(parms.Search) || P.Name.ToLower().Contains(parms.Search))
+                &&
+                (!parms.Brandid.HasValue || P.BrandId == parms.Brandid)
                 && (!parms.Typeid.HasValue || P.TypeId == parms.Typeid))
 
                 { }

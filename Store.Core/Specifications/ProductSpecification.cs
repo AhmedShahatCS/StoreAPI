@@ -11,8 +11,12 @@ namespace Store.Core.Specifications
     {
         public ProductSpecification(ProductSpecParms Parms) :
             base(
-                P=>(!Parms.Brandid.HasValue||P.BrandId== Parms.Brandid)
-                &&(!Parms.Typeid.HasValue||P.TypeId== Parms.Typeid)
+                P=>
+                (string.IsNullOrEmpty(Parms.Search)||P.Name.ToLower().Contains(Parms.Search))
+                &&
+                (!Parms.Brandid.HasValue||P.BrandId== Parms.Brandid)
+                &&
+                (!Parms.Typeid.HasValue||P.TypeId== Parms.Typeid)
                 
                 )
         {
