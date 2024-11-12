@@ -10,5 +10,10 @@ namespace Store.Core.Entity
     {
         public string Id { get; set; }
         public List<BasketItem> Items { get; set; }
+        
+        public CustomerBasket(string id)
+        {
+            Id = id;
+        }
     }
 }

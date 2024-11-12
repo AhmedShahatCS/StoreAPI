@@ -5,6 +5,8 @@ using Store.Core;
 using Store.Repository;
 using Store.Service.Services.Products;
 using Store.API.Errors;
+using Store.Core.Repository.Contract;
+using Store.Repository.Repository;
 
 namespace Store.API.Extentions
 {
@@ -12,6 +14,7 @@ namespace Store.API.Extentions
     {
         public static IServiceCollection AddAplicationService(this IServiceCollection Services)
         {
+            Services.AddScoped<IBasketRepository, BasketRepository>();
             Services.AddScoped<IUnitOfWork, UnitOfWork>();
             //builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
             Services.AddScoped<ISeviceProduct, SeviceProduct>();
