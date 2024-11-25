@@ -48,7 +48,7 @@ namespace Store.API
             });
 
             builder.Services.AddAplicationService();
-            builder.Services.AddIdentityService();
+            builder.Services.AddIdentityService(builder.Configuration);
             var app = builder.Build();
 
            using var scope= app.Services.CreateScope();
@@ -83,6 +83,7 @@ namespace Store.API
             app.UseStatusCodePagesWithReExecute("/errors/{0}");
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
 
             app.UseAuthorization();
             app.UseStaticFiles();

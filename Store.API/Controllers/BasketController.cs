@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Store.API.Errors;
 using Store.Core.Entity;
@@ -16,6 +17,7 @@ namespace Store.API.Controllers
         {
             _basketRepo = basketRepo;
         }
+        [Authorize]
 
         [HttpGet("{id}")]
         public async Task<ActionResult<CustomerBasket>> GetBasket(string id)
@@ -26,6 +28,8 @@ namespace Store.API.Controllers
 
         }
 
+        [Authorize]
+
         [HttpPost]
         public async Task<ActionResult<CustomerBasket>> UpdateBasket(CustomerBasket basket)
         {
@@ -33,6 +37,7 @@ namespace Store.API.Controllers
             if (createdorupdatebasket is null) return BadRequest( new ApiResponse(400));
             return Ok(createdorupdatebasket);
         }
+        [Authorize]
 
         [HttpDelete]
         public async Task<ActionResult<bool>> DeleteBasket(string id)

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Store.API.Errors;
 using Store.Core.Dtos.Product;
@@ -16,6 +18,7 @@ namespace Store.API.Controllers
         public ProductsController(ISeviceProduct seviceProduct) {
             _seviceProduct = seviceProduct;
         }
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult> GetAllProduct([FromQuery]ProductSpecParms Parms)
         {
@@ -25,6 +28,9 @@ namespace Store.API.Controllers
         
         
         }
+
+        [Authorize]
+
         [HttpGet("brands")]
         public async Task<ActionResult> GeyttAllBrands()
         {
@@ -33,6 +39,7 @@ namespace Store.API.Controllers
 
 
         }
+        [Authorize]
 
         [HttpGet("types")]
         public async Task<ActionResult> GeyttAllTypes()
@@ -42,6 +49,7 @@ namespace Store.API.Controllers
 
 
         }
+        [Authorize]
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ProductDto),StatusCodes.Status200OK)]

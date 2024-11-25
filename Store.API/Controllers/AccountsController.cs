@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Store.API.Errors;
 using Store.Core.Dtos.Identity;
 using Store.Core.Entity.Identity;
+using Store.Core.Servise.Contract;
 
 namespace Store.API.Controllers
 {
@@ -13,11 +14,13 @@ namespace Store.API.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly ITokenService _tokenService;
 
-        public AccountsController(UserManager<AppUser> userManager,SignInManager<AppUser> signInManager)
+        public AccountsController(UserManager<AppUser> userManager,SignInManager<AppUser> signInManager,ITokenService tokenService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _tokenService = tokenService;
         }
 
         [HttpPost("Register")]
@@ -40,7 +43,7 @@ namespace Store.API.Controllers
             {
                 DisplayName = User.DisplayName,
                 Email = User.Email,
-                Token = "this will be token"
+                Token = await _tokenService.CreateTokenAsync(User, _userManager)
             };
             return Ok(ReturnedUser);
             
@@ -66,7 +69,7 @@ namespace Store.API.Controllers
             {
                 DisplayName = user.DisplayName,
                 Email = user.Email,
-                Token = "this will be token"
+                Token = await _tokenService.CreateTokenAsync(user, _userManager)
 
             };
             return Ok(returneduser);
