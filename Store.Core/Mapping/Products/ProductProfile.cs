@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
+using Store.Core.Dtos.Identity;
 using Store.Core.Dtos.Product;
 using Store.Core.Entity;
+using Store.Core.Entity.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +23,8 @@ namespace Store.Core.Mapping.Products
 
             CreateMap<ProductType, TypeBrandDto>();
             CreateMap<ProductBrand, TypeBrandDto>();
+
+            CreateMap<Address, AddressDto>().ReverseMap();
 
 
 
