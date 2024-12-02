@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Store.Core.Dtos.Basket;
 using Store.Core.Dtos.Identity;
 using Store.Core.Dtos.Product;
 using Store.Core.Entity;
@@ -25,6 +26,9 @@ namespace Store.Core.Mapping.Products
             CreateMap<ProductBrand, TypeBrandDto>();
 
             CreateMap<Address, AddressDto>().ReverseMap();
+
+            CreateMap<CustomerBasketDto, CustomerBasket>();
+            CreateMap<BasketItemDto, BasketItem>();
 
 
 

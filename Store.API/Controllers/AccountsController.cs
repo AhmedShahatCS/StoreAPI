@@ -34,6 +34,9 @@ namespace Store.API.Controllers
 
         public async Task<ActionResult<UserDto>> Register(RegisterDto model)
         {
+            if (CheckEmailIsExist(model.Email).Result.Value)
+                return BadRequest(new ApiResponse(400, " this Email Already Used"));
+                    
             var User = new AppUser()
             {
                 DisplayName = model.DisplayName,
@@ -123,6 +126,18 @@ namespace Store.API.Controllers
             if (!result.Succeeded) return BadRequest(new ApiResponse(400));
 
             return Ok(updatedAddress);
+        }
+
+        [HttpGet("emailExists")]
+        public async Task<ActionResult<bool>> CheckEmailIsExist(string email)
+        {
+            //var user= await _userManager.FindByEmailAsync(email);
+            //if (user is not null) return false;
+            //else return true;
+
+            return await _userManager.FindByEmailAsync(email) is not null;
+            
+
         }
     }
 }
