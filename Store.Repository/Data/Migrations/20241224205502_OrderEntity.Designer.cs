@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Store.Repository.Data.Contexts;
 
@@ -11,9 +12,11 @@ using Store.Repository.Data.Contexts;
 namespace Store.Repository.Data.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    partial class StoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241224205502_OrderEntity")]
+    partial class OrderEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,7 +53,7 @@ namespace Store.Repository.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeliveryMethods", (string)null);
+                    b.ToTable("DeliveryMethods");
                 });
 
             modelBuilder.Entity("Store.Core.Entity.OrderAggregate.Order", b =>
@@ -89,7 +92,7 @@ namespace Store.Repository.Data.Migrations
 
                     b.HasIndex("DeliveryMethodsId");
 
-                    b.ToTable("orders", (string)null);
+                    b.ToTable("orders");
                 });
 
             modelBuilder.Entity("Store.Core.Entity.OrderAggregate.OrderItems", b =>
@@ -116,7 +119,7 @@ namespace Store.Repository.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems", (string)null);
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("Store.Core.Entity.Product", b =>
@@ -158,7 +161,7 @@ namespace Store.Repository.Data.Migrations
 
                     b.HasIndex("TypeId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("Store.Core.Entity.ProductBrand", b =>
@@ -178,7 +181,7 @@ namespace Store.Repository.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands", (string)null);
+                    b.ToTable("Brands");
                 });
 
             modelBuilder.Entity("Store.Core.Entity.ProductType", b =>
@@ -198,7 +201,7 @@ namespace Store.Repository.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Types", (string)null);
+                    b.ToTable("Types");
                 });
 
             modelBuilder.Entity("Store.Core.Entity.OrderAggregate.Order", b =>
@@ -209,7 +212,7 @@ namespace Store.Repository.Data.Migrations
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.OwnsOne("Store.Core.Entity.OrderAggregate.Order.ShippingAddress#Store.Core.Entity.OrderAggregate.Address", "ShippingAddress", b1 =>
+                    b.OwnsOne("Store.Core.Entity.OrderAggregate.Address", "ShippingAddress", b1 =>
                         {
                             b1.Property<int>("OrderId")
                                 .HasColumnType("int");
@@ -236,7 +239,7 @@ namespace Store.Repository.Data.Migrations
 
                             b1.HasKey("OrderId");
 
-                            b1.ToTable("orders", (string)null);
+                            b1.ToTable("orders");
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
@@ -254,7 +257,7 @@ namespace Store.Repository.Data.Migrations
                         .WithMany("Items")
                         .HasForeignKey("OrderId");
 
-                    b.OwnsOne("Store.Core.Entity.OrderAggregate.OrderItems.Product#Store.Core.Entity.OrderAggregate.ProdutItemOrder", "Product", b1 =>
+                    b.OwnsOne("Store.Core.Entity.OrderAggregate.ProdutItemOrder", "Product", b1 =>
                         {
                             b1.Property<int>("OrderItemsId")
                                 .HasColumnType("int");
@@ -272,7 +275,7 @@ namespace Store.Repository.Data.Migrations
 
                             b1.HasKey("OrderItemsId");
 
-                            b1.ToTable("OrderItems", (string)null);
+                            b1.ToTable("OrderItems");
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderItemsId");

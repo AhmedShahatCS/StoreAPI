@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Store.Core.Entity;
+using Store.Core.Entity.OrderAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,12 @@ namespace Store.Repository.Data.Contexts
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductBrand> Brands { get; set; }
         public DbSet<ProductType> Types { get; set; }
+        public DbSet<Order> orders { get; set; }
+        public DbSet<OrderItems> OrderItems { get; set; }
+        public DbSet<DeliveryMethods> DeliveryMethodss { get; set; }
+
+
+
 
 
     }
